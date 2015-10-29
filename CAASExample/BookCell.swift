@@ -21,13 +21,10 @@
 
 
 import UIKit
-import CAASObjC
 
 class BookCell: UITableViewCell {
 
     @IBOutlet weak var title: UILabel!
-    
-    var caasService:CAASService!
     
     var book:Book! {
         didSet {
