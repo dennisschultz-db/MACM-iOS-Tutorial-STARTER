@@ -33,5 +33,25 @@ class Book: NSManagedObject {
     @NSManaged var author: String?
     @NSManaged var cover: String?
     @NSManaged var pdf: String?
+    
+    class func createInManagedObjectContext(
+        moc: NSManagedObjectContext,
+        title: String?,
+        author: String?,
+        price: NSNumber?,
+        isbn: String?,
+        publish_date: NSDate?,
+        cover: String?,
+        pdf: String?) {
+            let newBook = NSEntityDescription.insertNewObjectForEntityForName("Book", inManagedObjectContext: moc) as! Book
+            newBook.title        = title
+            newBook.author       = author
+            newBook.price        = price
+            newBook.isbn         = isbn
+            newBook.publish_date = publish_date
+            newBook.cover        = cover
+            newBook.pdf          = pdf
+        
+    }
 
 }
