@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>TUTORIAL CAAS Connect</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>CodeBlock</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>        CAASNetworkActivityIndicatorManager.sharedInstance().enabled = true
+        
+        //TODO:  CAAS Tutorial:: Uncomment the following and customize for your content server
+        //       MACM server URLS are of the form
+        //          protocol://server:port/contextRoot/tenant
+        //       For example, for a server at http://myserver.mybluemix.net:10039/wps/macm1 should
+        //       be represented as:
+        //          baseURL:     "http://myserver.mybluemix.net:10039"
+        //          contextRoot: "wps"
+        //          tenant:      "macm1"
+        caasService = CAASService(baseURL: NSURL(string: "http://your-server:your-port")!,
+                                  contextRoot: "wps",
+                                  tenant: "macm1")
+        
+        if caasService == nil {
+            assertionFailure("Wrong parameters")
+        }
+        
+        if !caasService!.isUserAlreadySignedIn() {
+            let sb = UIStoryboard(name:"Main",bundle:nil)
+            let vc = sb.instantiateViewControllerWithIdentifier("CAASSignInID") as UIViewController!
+            self.window!.rootViewController = vc
+        }
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>206B9F92-5721-40FB-BDCE-31614925119C</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>TUTORIAL CAAS Connect</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>TUTORIALdownloadImage</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>ClassImplementation</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>    /**
+        Download an image from the given URL on the caasService
+    
+        @param imageURL  the URL of the image to be downloaded
+    */
+    func downloadImage(imageURL: NSURL?) {
+        caasService.cancelAllPendingRequests()
+        let imageRequest = CAASAssetRequest(assetURL: imageURL!) { (imageResult) -&gt; Void in
+            self.activityIndicator.stopAnimating()
+            if let image = imageResult.image {
+                self.cover.image = image
+                self.cover.hidden = false
+                imageCache?.setObject(image, forKey: imageURL!.absoluteString)
+            } else {
+                if let error = imageResult.error {
+                    print(error)
+                }
+                if imageResult.httpStatusCode &gt; 0 {
+                    print(imageResult.httpStatusCode)
+                }
+                
+            }
+        }
+        caasService.executeRequest(imageRequest)
+        
+    }
+    
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>2A02583D-969F-430B-95A3-84BF6C86DEC1</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>TUTORIAL downloadImage</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>TUTORIALcheckUser</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>ClassImplementation</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>    /**
+        Attempts to sign into caasService using the credentials given in the login page.  If
+        an error occurs, the user will be alerted and reprompted.  If login is successful,
+        the app will open the books list and attempt to download content from the MACM server.
+    */
+    func checkUser() {
+        // Override point for customization after application launch.
+        
+        caasService.signIn(self.username.text!, password: self.password.text!) { (error, httpStatusCode) -&gt; Void in
+            self.fbShimmeringView.shimmering = false
+            
+            
+            if (error != nil) || !(200..&lt;300).contains(httpStatusCode) {
+                
+                let message:String
+                
+                if error != nil &amp;&amp; error!.code == NSURLErrorCancelled {
+                    message = NSLocalizedString("SignIn.Alert.WrongCredentials",comment:"Wrong credentials")
+                } else if error != nil {
+                    print("error \(error)")
+                    message = error!.localizedDescription
+                } else {
+                    print("HTTPS Status \(httpStatusCode)")
+                    message = NSHTTPURLResponse.localizedStringForStatusCode(httpStatusCode)
+                }
+                
+                let alert = UIAlertController(title: NSLocalizedString("SignIn.Alert.Title",comment:"Sign In Error"), message: message, preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "OK Button"), style: .Default, handler: { (alertAction) -&gt; Void in
+                    UIView.animateWithDuration(0.35, animations: { () -&gt; Void in
+                        self.username.alpha = 1
+                        self.password.alpha = 1
+                        self.hairLine.alpha = 1
+                        
+                        self.username.becomeFirstResponder()
+                        
+                        self.view.removeConstraint(self.shimmeringViewVerticalCenter)
+                        self.view.addConstraint(self.shimmeringViewVerticalSpacing)
+                        self.view.layoutIfNeeded()
+                        
+                    })
+                    
+                    
+                }))
+                self.presentViewController(alert, animated: true, completion: nil)
+                
+            } else {
+                NSNotificationCenter.defaultCenter().postNotificationName(kCAASDidSignIn, object: self)
+                AppDelegate.goInitialController()
+            }
+            
+        }
+        
+    }
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>9360DEE9-D210-4EF8-9A15-0B759578EC23</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>TUTORIAL checkUser</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

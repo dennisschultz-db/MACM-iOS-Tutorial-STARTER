@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>TUTORIALgetPage</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>ClassImplementation</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>    /**
+    Adds one page of content to the ManagedObjectContent store and refreshes the view
+    
+    @param pageNumber Integer number of the page for which content should be retrieved
+    */
+    private func getPage(pageNumber:Int = 1){
+        // Build a CAASContentItemsRequest for the contentPath.  The completionBlock will be executed
+        // asynchronously when the server replies.
+        let contentItemsRequest = CAASContentItemsRequest(contentPath: wcmPath, completionBlock: { (requestResult) -&gt; Void in
+            self.processReturnData(pageNumber,requestResult: requestResult);
+        })
+        
+        contentItemsRequest.elements = ["author","cover","isbn","price","publish_date","PDF"]
+        contentItemsRequest.properties = ["id","title","keywords"]
+        contentItemsRequest.pageSize = 10
+        contentItemsRequest.pageNumber = pageNumber
+        contentItemsRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        contentItemsRequest.geolocalized = true
+        caasService.executeRequest(contentItemsRequest)
+        
+    }
+
+
+    private func processReturnData(pageNumber: Int, requestResult: CAASContentItemsResult) {
+        
+        if (requestResult.error != nil) || (requestResult.httpStatusCode != 200) {
+            // Error retrieving data from the server
+            self.refreshControl?.endRefreshing()
+            AppDelegate.presentNetworkError(requestResult.error,httpStatusCode: requestResult.httpStatusCode)
+            
+        } else if let contentItems = requestResult.contentItems  {
+            // Convert response into actual Book entities
+            for contentItem in contentItems {
+                // Create an empty book entity
+                let book = NSEntityDescription.insertNewObjectForEntityForName(NSStringFromClass(Book), inManagedObjectContext: dataController.writerContext) as! Book
+                
+                // Consolidate elements and properties into a single values array
+                let elements = contentItem.elements
+                let properties = contentItem.properties
+                
+                var values:[NSObject:AnyObject] = [:]
+                
+                values.update(elements)
+                values.update(properties)
+                
+                // Add each value as a property of the book
+                for (var key,var value) in values {
+                    if value is NSNull {
+                        continue
+                    }
+                    if let url = value as? NSURL {
+                        value = url.absoluteString
+                    }
+                    key = (key as! String).lowercaseString
+                    book.setValue(value, forKey: key as! String)
+                }
+                
+                book.title = properties["title"] as? String
+                
+            }
+            
+            // Save the books in ManagedObject store
+            dataController.seedDatabaseWithBooks()
+            
+            // Get the next page, if there are more pages to be gotten
+            if requestResult.morePages {
+                self.getPage(pageNumber + 1)
+                return
+            }
+            
+            // Complete the refresh once all books have been downloaded and stored
+            self.refreshControl?.endRefreshing()
+        }
+
+    }
+</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>20C76C82-EDDA-493A-AB5D-2EFE612E690E</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>TUTORIAL getPage</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>
