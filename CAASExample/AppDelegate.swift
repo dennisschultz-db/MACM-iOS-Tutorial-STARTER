@@ -24,6 +24,7 @@ import UIKit
 import CAASObjC
 import CoreData
 
+//TODO:  CAAS Tutorial:: Uncomment the following
 var caasService:CAASService!
 
 var dataController:DataController!
@@ -46,30 +47,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControl.backgroundColor = UIColor.whiteColor()
 
-        CAASNetworkActivityIndicatorManager.sharedInstance().enabled = true
-        
         dataController = DataController(modelName: "CAASExampleModel")
         DataController.removeStore()
         
         
-        //http://macm-mobile-nightly.rtp.raleigh.ibm.com:10039/wps/myportal
-        
-        //caasService = CAASService(baseURL: NSURL(string: "http://macm-mobile-nightly.rtp.raleigh.ibm.com:10039")!,contextRoot:"wps",tenant:nil)
-        
-        //http://macm-master-cf06.rtp.raleigh.ibm.com:10039/wps/myportal
-        
-        caasService = CAASService(baseURL: NSURL(string: "http://macm-mobile-nightly.rtp.raleigh.ibm.com:10039")!,contextRoot:"wps",tenant:nil)
-        
-        if caasService == nil {
-            assertionFailure("Wrong parameters")
-        }
-        
-        if !caasService!.isUserAlreadySignedIn() {
-            let sb = UIStoryboard(name:"Main",bundle:nil)
-            let vc = sb.instantiateViewControllerWithIdentifier("CAASSignInID") as UIViewController!
-            self.window!.rootViewController = vc
-        }
-        
+        //TODO:  CAAS Tutorial:: Insert the snippet "CAAS Connect" here
+
+
 
         return true
     }

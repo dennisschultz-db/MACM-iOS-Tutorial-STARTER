@@ -45,44 +45,69 @@ class CoverController: UIViewController {
         self.cover.backgroundColor = UIColor.lightGrayColor()
         */
         
-        if let coverURL = book.cover {
-            let imageURL = NSURL(string: coverURL, relativeToURL: caasService.baseURL)
+        if let coverURLString = book.cover {
+
+            //TODO: CAAS Tutorial:: Replace imageHostBaseURL
+            let imageHostBaseURL = NSURL(string: "https://upload.wikimedia.org")
+
+            let imageURL = NSURL(
+                string: coverURLString,
+                relativeToURL: imageHostBaseURL)
             
             // check of the image is already in the cache
             if let image = imageCache?.objectForKey(imageURL!.absoluteString) as? UIImage {
                 self.cover.image = image
                 self.cover.setNeedsLayout()
                 self.cover.layoutIfNeeded()
+                
             } else {
-                self.cover.hidden = true
-                // Execute a request for getting an image
-                self.activityIndicator.startAnimating()
-                caasService.cancelAllPendingRequests()
-                let imageRequest = CAASAssetRequest(assetURL: imageURL!) { (imageResult) -> Void in
-                    self.activityIndicator.stopAnimating()
-                    if let image = imageResult.image {
-                        self.cover.image = image
-                        self.cover.hidden = false
-                        imageCache?.setObject(image, forKey: imageURL!.absoluteString)
-                    } else {
-                        if let error = imageResult.error {
-                            print(error)
-                        }
-                        if imageResult.httpStatusCode > 0 {
-                            print(imageResult.httpStatusCode)
-                        }
-                        
-                    }
-                }
-                caasService.executeRequest(imageRequest)
+                downloadImage(imageURL)
+                
             }
+            
         } else {
             self.cover.hidden = true
         }
+    }
+    
+    
+    
+//TODO: CAAS Tutorial:: Replace func downloadImage
+// >>>>>> Start cut
+    /**
+        Download an image from the given URL on the internet
+    
+        @param imageURL  the URL of the image to be downloaded
+    */
+    func downloadImage(imageURL: NSURL?) {
+        self.cover.hidden = true
+        // Execute a request for getting an image
+        self.activityIndicator.startAnimating()
         
-        
+        let request: NSURLRequest = NSURLRequest(URL: imageURL!)
+        let mainQueue = NSOperationQueue.mainQueue()
+        NSURLConnection.sendAsynchronousRequest(request, queue: mainQueue, completionHandler: { (response, data, error) -> Void in
+            if error == nil {
+                // Convert the downloaded data in to a UIImage object
+                if let image = UIImage(data: data!) {
+                    self.cover.image = image
+                    self.cover.hidden = false
+                    
+                    self.activityIndicator.stopAnimating()
+                    
+                    // Store the image in to our cache
+                    imageCache?.setObject(image, forKey: imageURL!.absoluteString)
+                }
+            }
+            else {
+                print("Error: \(error!.localizedDescription)")
+            }
+        })
         
     }
+// >>>>>> End cut
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

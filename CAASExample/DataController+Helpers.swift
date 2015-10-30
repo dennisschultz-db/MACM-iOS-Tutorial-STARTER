@@ -29,6 +29,12 @@ var imageCache:NSCache?
 extension DataController
 {
     
+    /**
+     Populates the ManagedObjectContent store with the given CAASContentItems which have been
+     retrieved from the CAAS server.
+     
+     @param contentItems Array of CAASContentItem retrieved from the server
+     */
     func seedDatabaseWithBooks(contentItems:[CAASContentItem]) {
         imageCache = NSCache()
         let moc = self.writerContext
@@ -70,6 +76,50 @@ extension DataController
             })
         }
     }
+    
+    /**
+     Used for testing only!  This routine will populate the ManagedObjectContent store with
+     sample books.  It does not get content from the MACM server.
+     */
+    func seedDatabaseWithStaticBooks() {
+        // Create a date formatter that can be used for all books
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MMM-dd"
+        
+        Book.createInManagedObjectContext(
+            self.writerContext,
+            title: "Grapes of Wrath",
+            author: "John Stienbeck",
+            price: 12.99,
+            isbn: "978-0143039433",
+            publish_date: dateFormatter.dateFromString("1939-Apr-14"),
+            cover: "/wikipedia/en/1/1f/JohnSteinbeck_TheGrapesOfWrath.jpg",
+            pdf: nil)
+        
+        Book.createInManagedObjectContext(
+            self.writerContext,
+            title: "The Hunt for Red October",
+            author: "Tom Clancy",
+            price: 17.99,
+            isbn: "0-87021-285-0",
+            publish_date: dateFormatter.dateFromString("1984-Jan-01"),
+            cover: "/wikipedia/en/c/c2/HuntForRedOctober.JPG",
+            pdf: nil)
+        
+        do {
+            
+            try self.writerContext.save()
+            
+        } catch {
+            fatalError("Code Data Error \(error)")
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            NSNotificationCenter.defaultCenter().postNotificationName(kDidReceiveBooks, object: self)
+        })
+        
+    }
+
     
     func emptyDatabase() {
         let fetchRequest = NSFetchRequest(entityName: NSStringFromClass(Book))

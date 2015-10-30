@@ -123,12 +123,13 @@ class MoreController: UITableViewController {
             
             self.tableView.reloadData()
             
-            //self.tableView.deselectRowAtIndexPath(NSIndexPath(forRow:Sections.SignOut.rawValue,inSection:SignOut.SignOut.rawValue), animated: true)
         }))
         alert.addAction(UIAlertAction(title: NSLocalizedString("Settings.SignOutAlert.SignOut",comment:"SignOut button to confirm the sign out"), style: .Destructive, handler: { (alertAction) -> Void in
             
             dataController.emptyDatabase()
-            caasService.signOut()
+            
+            //TODO: CAAS Tutorial:: Uncomment the following
+            // caasService.signOut()
             
             let sb = UIStoryboard(name:"Main",bundle:nil)
             let vc = sb.instantiateViewControllerWithIdentifier("CAASSignInID")

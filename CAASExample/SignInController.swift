@@ -22,7 +22,6 @@
 
 import UIKit
 import Shimmer
-import CAASObjC
 
 let kCAASDidSignIn = "CAASDidSignIn"
 
@@ -188,57 +187,16 @@ extension SignInController: UITextFieldDelegate {
         
     }
     
+
+    //TODO: CAAS Tutorial:: replace func checkUser
+    // >>>>>> Start cut
     func checkUser() {
         // Override point for customization after application launch.
         
-        caasService.signIn(self.username.text!, password: self.password.text!) { (error, httpStatusCode) -> Void in
-            self.fbShimmeringView.shimmering = false
-            
-            
-            if (error != nil) || !(200..<300).contains(httpStatusCode) {
-                
-                let message:String
-                
-                if error != nil && error!.code == NSURLErrorCancelled {
-                    message = NSLocalizedString("SignIn.Alert.WrongCredentials",comment:"Wrong credentials")
-                } else if error != nil {
-                    print("error \(error)")
-                    message = error!.localizedDescription
-                } else {
-                    print("HTTPS Status \(httpStatusCode)")
-                    message = NSHTTPURLResponse.localizedStringForStatusCode(httpStatusCode)
-                }
-                
-                let alert = UIAlertController(title: NSLocalizedString("SignIn.Alert.Title",comment:"Sign In Error"), message: message, preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "OK Button"), style: .Default, handler: { (alertAction) -> Void in
-                    UIView.animateWithDuration(0.35, animations: { () -> Void in
-                        self.username.alpha = 1
-                        self.password.alpha = 1
-                        self.hairLine.alpha = 1
-                        
-                        self.username.becomeFirstResponder()
-                        
-                        self.view.removeConstraint(self.shimmeringViewVerticalCenter)
-                        self.view.addConstraint(self.shimmeringViewVerticalSpacing)
-                        self.view.layoutIfNeeded()
-                        
-                    })
-                    
-                    
-                }))
-                self.presentViewController(alert, animated: true, completion: nil)
-                
-            } else {
-                NSNotificationCenter.defaultCenter().postNotificationName(kCAASDidSignIn, object: self)
-                AppDelegate.goInitialController()
-            }
-            
-        }
-
-        
-        
-        
+        NSNotificationCenter.defaultCenter().postNotificationName(kCAASDidSignIn, object: self)
+        AppDelegate.goInitialController()
     }
+    // >>>>>> End cut
 
 }
 

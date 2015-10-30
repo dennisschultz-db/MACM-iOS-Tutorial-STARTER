@@ -35,16 +35,17 @@ class PDFController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        if let pdf = book.pdf {
-            //webView.loadRequest(NSURLRequest(URL: NSURL(string: pdf)!))
-            let assetRequest = CAASAssetRequest(assetURL: NSURL(string: pdf)!, completionBlock: { (assetResult) -> Void in
-                if let data = assetResult.data {
-                    self.webView.loadData(data, MIMEType: "application/pdf", textEncodingName: "", baseURL: NSURL(string: "localhost://www.example")!)
-                }
-            })
-            caasService.executeRequest(assetRequest)
-        }
+// TODO: CAAS Tutorial:: Uncomment the following:
+//        // Do any additional setup after loading the view.
+//        if let pdf = book.pdf {
+//            //webView.loadRequest(NSURLRequest(URL: NSURL(string: pdf)!))
+//            let assetRequest = CAASAssetRequest(assetURL: NSURL(string: pdf)!, completionBlock: { (assetResult) -> Void in
+//                if let data = assetResult.data {
+//                    self.webView.loadData(data, MIMEType: "application/pdf", textEncodingName: "", baseURL: NSURL(string: "localhost://www.example")!)
+//                }
+//            })
+//            caasService.executeRequest(assetRequest)
+//        }
     }
 
     override func didReceiveMemoryWarning() {

@@ -24,7 +24,7 @@ import UIKit
 import CoreData
 import CAASObjC
 
-private let wcmPath = "Book App/Content Types/Book"
+private let wcmPath = "Samples/Content Types/Book"
 
 class BooksViewController: UITableViewController {
     
@@ -73,7 +73,7 @@ class BooksViewController: UITableViewController {
         
         self.refresh(self)
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+         self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
@@ -102,8 +102,6 @@ class BooksViewController: UITableViewController {
         let book = self.fetchedResultController.objectAtIndexPath(indexPath) as! Book
         
         let cell = tableView.dequeueReusableCellWithIdentifier("BookCellID", forIndexPath: indexPath) as! BookCell
-        
-        cell.caasService = caasService
         
         cell.book = book
         cell.updatefonts()
@@ -148,36 +146,27 @@ class BooksViewController: UITableViewController {
         self.refreshControl?.beginRefreshing()
         
         dataController.emptyDatabase()
-        caasService.cancelAllPendingRequests()
+        
+        //TODO:  CAAS Tutorial:: Uncomment the following:
+        // caasService.cancelAllPendingRequests()
+        
         self.getPage()
         
     }
+
+//TODO:  CAAS Tutorial:: replace func getPage
+// >>>>>> Start cut
+    /**
+        Adds one page of content to the ManagedObjectContent store and refreshes the view
     
+        @param pageNumber Integer number of the page for which content should be retrieved
+    */
     private func getPage(pageNumber:Int = 1){
-        let contentItemsRequest = CAASContentItemsRequest(contentPath: wcmPath, completionBlock: { (requestResult) -> Void in
-            if (requestResult.error != nil) || (requestResult.httpStatusCode != 200) {
-                self.refreshControl?.endRefreshing()
-                AppDelegate.presentNetworkError(requestResult.error,httpStatusCode: requestResult.httpStatusCode)
-            } else if let contentItems = requestResult.contentItems  {
-                dataController.seedDatabaseWithBooks(contentItems)
-                if requestResult.morePages {
-                    self.getPage(pageNumber + 1)
-                    return
-                }
-                self.refreshControl?.endRefreshing()
-            }
-            
-        })
-        
-        contentItemsRequest.elements = ["author","cover","isbn","price","publish_date","PDF"]
-        contentItemsRequest.properties = ["id","title","keywords"]
-        contentItemsRequest.pageSize = 10
-        contentItemsRequest.pageNumber = pageNumber
-        contentItemsRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-        contentItemsRequest.geolocalized = true
-        caasService.executeRequest(contentItemsRequest)
-    
+        dataController.seedDatabaseWithStaticBooks()
+        self.refreshControl?.endRefreshing()
     }
+// >>>>>> End cut
+
     
     private func createEmptyController() -> UIViewController {
         let empty = NSLocalizedString("No Book Selected", comment:"No Book Selected")
