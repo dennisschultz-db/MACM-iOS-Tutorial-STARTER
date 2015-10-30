@@ -17,7 +17,7 @@
     private func getPage(pageNumber:Int = 1){
         // Build a CAASContentItemsRequest for the contentPath.  The completionBlock will be executed
         // asynchronously when the server replies.
-        let contentItemsRequest = CAASContentItemsRequest(contentPath: wcmPath, completionBlock: { (requestResult) -&gt; Void in
+        let contentItemsRequest = CAASContentItemsRequest(contentPath: "Samples/Content Types/Book", completionBlock: { (requestResult) -&gt; Void in
             self.processReturnData(pageNumber,requestResult: requestResult);
         })
         

@@ -11,7 +11,7 @@
 	<key>IDECodeSnippetContents</key>
 	<string>        CAASNetworkActivityIndicatorManager.sharedInstance().enabled = true
         
-        //TODO:  CAAS Tutorial:: Uncomment the following and customize for your content server
+        //TODO:  CAAS Tutorial:: Customize for your content server
         //       MACM server URLS are of the form
         //          protocol://server:port/contextRoot/tenant
         //       For example, for a server at http://myserver.mybluemix.net:10039/wps/macm1 should
