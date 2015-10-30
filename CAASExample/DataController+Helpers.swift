@@ -29,12 +29,6 @@ var imageCache:NSCache?
 extension DataController
 {
     
-    /**
-     Populates the ManagedObjectContent store with the given CAASContentItems which have been
-     retrieved from the CAAS server.
-     
-     @param contentItems Array of CAASContentItem retrieved from the server
-     */
     func seedDatabaseWithBooks(contentItems:[CAASContentItem]) {
         imageCache = NSCache()
         let moc = self.writerContext
@@ -77,6 +71,26 @@ extension DataController
         }
     }
     
+    /**
+     Populates the ManagedObjectContent store with the books which have already been
+     created in the View Controller
+     */
+    func seedDatabaseWithBooks() {
+        
+        do {
+            
+            try self.writerContext.save()
+            
+        } catch {
+            fatalError("Code Data Error \(error)")
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            NSNotificationCenter.defaultCenter().postNotificationName(kDidReceiveBooks, object: self)
+        })
+
+    }
+
     /**
      Used for testing only!  This routine will populate the ManagedObjectContent store with
      sample books.  It does not get content from the MACM server.
