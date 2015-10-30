@@ -21,56 +21,15 @@
 
 
 import Foundation
-import CAASObjC
+//TODO:  CAAS Tutorial:: Uncomment the following:
+//import CAASObjC
 import CoreData
 
 var imageCache:NSCache?
 
 extension DataController
 {
-    
-    func seedDatabaseWithBooks(contentItems:[CAASContentItem]) {
-        imageCache = NSCache()
-        let moc = self.writerContext
-        moc.performBlock { () -> Void in
-            for contentItem in contentItems {
-                let book = NSEntityDescription.insertNewObjectForEntityForName(NSStringFromClass(Book), inManagedObjectContext: moc) as! Book
-                let elements = contentItem.elements
-                let properties = contentItem.properties
-                
-                var values:[NSObject:AnyObject] = [:]
-                
-                values.update(elements)
-                values.update(properties)
-                
-                for (var key,var value) in values {
-                    if value is NSNull {
-                        continue
-                    }
-                    if let url = value as? NSURL {
-                        value = url.absoluteString
-                    }
-                    key = (key as! String).lowercaseString
-                    book.setValue(value, forKey: key as! String)
-                }
-                
-                book.title = properties["title"] as? String
-                
-            }
-            do {
-                
-                try moc.save()
-                
-            } catch {
-                fatalError("Code Data Error \(error)")
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                NSNotificationCenter.defaultCenter().postNotificationName(kDidReceiveBooks, object: self)
-            })
-        }
-    }
-    
+        
     /**
      Populates the ManagedObjectContent store with the books which have already been
      created in the View Controller

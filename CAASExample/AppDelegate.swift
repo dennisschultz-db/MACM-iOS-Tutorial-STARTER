@@ -21,11 +21,12 @@
 
 
 import UIKit
-import CAASObjC
+//TODO:  CAAS Tutorial:: Uncomment the following:
+//import CAASObjC
 import CoreData
 
 //TODO:  CAAS Tutorial:: Uncomment the following
-var caasService:CAASService!
+//var caasService:CAASService!
 
 var dataController:DataController!
 

@@ -22,7 +22,8 @@
 
 import UIKit
 import CoreData
-import CAASObjC
+//TODO:  CAAS Tutorial:: Uncomment the following:
+//import CAASObjC
 
 private let wcmPath = "Samples/Content Types/Book"
 
@@ -161,7 +162,7 @@ class BooksViewController: UITableViewController {
     
         @param pageNumber Integer number of the page for which content should be retrieved
     */
-    private func getPage2(pageNumber:Int = 1){
+    private func getPage(pageNumber:Int = 1){
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MMM-dd"
         

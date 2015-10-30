@@ -11,14 +11,3 @@ pod "MBProgressHUD"
 xcodeproj 'CAASExample.xcodeproj'
 end
 
-
-target :CAASObjC do
-platform :ios, '8.0'
-xcodeproj 'CAASObjC.xcodeproj'
-end
-
-target :CAASObjCTests do
-    platform :ios, '8.0'
-    pod 'CAASObjC', :path => '.'
-    xcodeproj 'CAASObjC.xcodeproj'
-end
