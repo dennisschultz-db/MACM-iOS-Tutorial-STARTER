@@ -5,9 +5,9 @@ use_frameworks!
 
 
 target :CAASExample do
-platform :ios, '8.0'
-pod 'Shimmer'
-pod "MBProgressHUD"
-xcodeproj 'CAASExample.xcodeproj'
+    platform :ios, '8.0'
+    pod 'Shimmer'
+    pod "MBProgressHUD"
+    xcodeproj 'CAASExample.xcodeproj'
 end
 
