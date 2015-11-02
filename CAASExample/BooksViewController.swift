@@ -151,7 +151,7 @@ class BooksViewController: UITableViewController {
         //TODO:  CAAS Tutorial:: Uncomment the following:
         // caasService.cancelAllPendingRequests()
         
-        self.getPage()
+        self.getBooks()
         
     }
 
@@ -162,7 +162,7 @@ class BooksViewController: UITableViewController {
     
         @param pageNumber Integer number of the page for which content should be retrieved
     */
-    private func getPage(pageNumber:Int = 1){
+    private func getBooks(){
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MMM-dd"
         
@@ -187,7 +187,7 @@ class BooksViewController: UITableViewController {
             pdf: nil)
         
         
-        dataController.seedDatabaseWithBooks()
+        dataController.saveMangedObjectContent()
         self.refreshControl?.endRefreshing()
     }
 // >>>>>> End cut
