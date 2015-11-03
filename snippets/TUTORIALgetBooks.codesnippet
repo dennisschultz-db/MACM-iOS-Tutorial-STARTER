@@ -3,36 +3,32 @@
 <plist version="1.0">
 <dict>
 	<key>IDECodeSnippetCompletionPrefix</key>
-	<string>TUTORIALgetPage</string>
+	<string>TUTORIALgetBooks</string>
 	<key>IDECodeSnippetCompletionScopes</key>
 	<array>
 		<string>ClassImplementation</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
 	<string>    /**
-    Adds one page of content to the ManagedObjectContent store and refreshes the view
-    
-    @param pageNumber Integer number of the page for which content should be retrieved
-    */
-    private func getPage(pageNumber:Int = 1){
+     Retrieves all the books, adds them to the ManagedObjectContent store and refreshes the view
+     */
+    private func getBooks(){
         // Build a CAASContentItemsRequest for the contentPath.  The completionBlock will be executed
         // asynchronously when the server replies.
-        let contentItemsRequest = CAASContentItemsRequest(contentPath: "Samples/Content Types/Book", completionBlock: { (requestResult) -&gt; Void in
-            self.processReturnData(pageNumber,requestResult: requestResult);
+        let contentItemsRequest = CAASContentItemsRequest(contentPath: "Samples/Content Types/Book", completionBlock: { (requestResult) -> Void in
+            self.processReturnData(requestResult);
         })
         
         contentItemsRequest.elements = ["author","cover","isbn","price","publish_date","PDF"]
         contentItemsRequest.properties = ["id","title","keywords"]
-        contentItemsRequest.pageSize = 10
-        contentItemsRequest.pageNumber = pageNumber
         contentItemsRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         contentItemsRequest.geolocalized = true
         caasService.executeRequest(contentItemsRequest)
         
     }
-
-
-    private func processReturnData(pageNumber: Int, requestResult: CAASContentItemsResult) {
+    
+    
+    private func processReturnData(requestResult: CAASContentItemsResult) {
         
         if (requestResult.error != nil) || (requestResult.httpStatusCode != 200) {
             // Error retrieving data from the server
@@ -71,26 +67,21 @@
             }
             
             // Save the books in ManagedObject store
-            dataController.seedDatabaseWithBooks()
-            
-            // Get the next page, if there are more pages to be gotten
-            if requestResult.morePages {
-                self.getPage(pageNumber + 1)
-                return
-            }
+            dataController.saveMangedObjectContent()
             
             // Complete the refresh once all books have been downloaded and stored
             self.refreshControl?.endRefreshing()
         }
-
+        
     }
+
 </string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>20C76C82-EDDA-493A-AB5D-2EFE612E690E</string>
 	<key>IDECodeSnippetLanguage</key>
 	<string>Xcode.SourceCodeLanguage.Swift</string>
 	<key>IDECodeSnippetTitle</key>
-	<string>TUTORIAL getPage</string>
+	<string>TUTORIAL getBooks</string>
 	<key>IDECodeSnippetUserSnippet</key>
 	<true/>
 	<key>IDECodeSnippetVersion</key>

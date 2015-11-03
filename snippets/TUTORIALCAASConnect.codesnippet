@@ -19,19 +19,18 @@
         //          baseURL:     "http://myserver.mybluemix.net:10039"
         //          contextRoot: "wps"
         //          tenant:      "macm1"
+        //          username:    <mobile app API ID from IBM Bluemix MACM dashboard>
+        //          password:    <mobile app API password from IBM Bluemix MACM dashboard>
         caasService = CAASService(baseURL: NSURL(string: "http://your-server:your-port")!,
-                                  contextRoot: "wps",
-                                  tenant: "macm1")
+            contextRoot: "wps",
+            tenant: "macm1",
+            username: "your-API-ID",
+            password: "your-API-password")
         
         if caasService == nil {
             assertionFailure("Wrong parameters")
         }
         
-        if !caasService!.isUserAlreadySignedIn() {
-            let sb = UIStoryboard(name:"Main",bundle:nil)
-            let vc = sb.instantiateViewControllerWithIdentifier("CAASSignInID") as UIViewController!
-            self.window!.rootViewController = vc
-        }
 </string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>206B9F92-5721-40FB-BDCE-31614925119C</string>
