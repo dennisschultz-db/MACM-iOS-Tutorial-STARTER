@@ -155,12 +155,10 @@ class BooksViewController: UITableViewController {
         
     }
 
-//TODO:  CAAS Tutorial:: replace func getPage
+//TODO:  CAAS Tutorial:: replace func getBooks
 // >>>>>> Start cut
     /**
-        Adds one page of content to the ManagedObjectContent store and refreshes the view
-    
-        @param pageNumber Integer number of the page for which content should be retrieved
+        Builds the books, adds them to the ManagedObjectContent store and refreshes the view
     */
     private func getBooks(){
         let dateFormatter = NSDateFormatter()
