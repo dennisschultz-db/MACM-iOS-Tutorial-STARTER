@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>IDECodeSnippetCompletionPrefix</key>
-	<string>TUTORIAL CAAS Connect</string>
+	<string>TUTORIALCAASConnect</string>
 	<key>IDECodeSnippetCompletionScopes</key>
 	<array>
 		<string>CodeBlock</string>
 	</array>
 	<key>IDECodeSnippetContents</key>
-	<string>        CAASNetworkActivityIndicatorManager.sharedInstance().enabled = true
+	<string>CAASNetworkActivityIndicatorManager.sharedInstance().enabled = true
         
         //TODO:  CAAS Tutorial:: Customize for your content server
         //       MACM server URLS are of the form
@@ -19,8 +19,8 @@
         //          baseURL:     "http://myserver.mybluemix.net:10039"
         //          contextRoot: "wps"
         //          tenant:      "macm1"
-        //          username:    <mobile app API ID from IBM Bluemix MACM dashboard>
-        //          password:    <mobile app API password from IBM Bluemix MACM dashboard>
+        //          username:    &lt;mobile app API ID from IBM Bluemix MACM dashboard&gt;
+        //          password:    &lt;mobile app API password from IBM Bluemix MACM dashboard&gt;
         caasService = CAASService(baseURL: NSURL(string: "http://your-server:your-port")!,
             contextRoot: "wps",
             tenant: "macm1",
@@ -30,10 +30,9 @@
         if caasService == nil {
             assertionFailure("Wrong parameters")
         }
-        
-</string>
+        </string>
 	<key>IDECodeSnippetIdentifier</key>
-	<string>206B9F92-5721-40FB-BDCE-31614925119C</string>
+	<string>715FB9B6-A5C1-40F2-B808-557BEE9D178F</string>
 	<key>IDECodeSnippetLanguage</key>
 	<string>Xcode.SourceCodeLanguage.Swift</string>
 	<key>IDECodeSnippetTitle</key>
